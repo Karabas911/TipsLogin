@@ -20,7 +20,7 @@ class LoginViewModel :BaseViewModel(){
     private lateinit var subscription: Disposable
 
     init {
-        loginUser("","","")
+        loginUser("+380","671112233","qwerty")
     }
 
     fun loginUser(phoneCode:String, phoneNumber:String, password:String){
