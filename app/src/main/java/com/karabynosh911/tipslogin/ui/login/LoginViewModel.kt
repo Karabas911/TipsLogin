@@ -14,44 +14,52 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class LoginViewModel(private val userDao: UserDao) :BaseViewModel(){
+class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val buttonClickable: MutableLiveData<Boolean> = MutableLiveData()
+    val startActivity: MutableLiveData<Boolean> = MutableLiveData()
     lateinit var mUser: User
 
     @Inject
     lateinit var tipsApi: TipsApi
 
-    private lateinit var subscription: Disposable
+    private var subscription: Disposable? = null
 
     init {
-        buttonClickable.value = true
+//        startActivity.value = false
+//        buttonClickable.value = true
         loadingVisibility.value = View.GONE
     }
 
-    fun loginUser(phoneCode:String, phoneNumber:String, password:String){
-        subscription = tipsApi.login(phoneCode,phoneNumber,password)
+    fun loginUser(phoneCode: String, phoneNumber: String, password: String) {
+        subscription = tipsApi.login(phoneCode, phoneNumber, password)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe{ onLoginStart()}
+            .doOnSubscribe { onLoginStart() }
             .doOnTerminate { onLoginFinished() }
             .subscribe(
-                {response -> mUser = response.user
+                { response ->
+                    mUser = response.user
                     insertUserToDb(mUser)
-                    onSuccess()
                 },
-                {onIError()})
+                { onIError() })
 
     }
 
     private fun insertUserToDb(user: User) {
-        subscription = Observable.fromCallable { userDao.insertUser(user)}
+        subscription = Observable.fromCallable {
+            userDao.deleteAllUsers()
+            userDao.insertUser(user)
+        }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe(
-                { Log.d(TAG, "User inserted successfully")},
-                {Log.d(TAG, "ERROR, User wasn't inserted")}
+                {
+                    Log.d(TAG, "User inserted successfully")
+                    onSuccess()
+                },
+                { Log.d(TAG, "ERROR, User wasn't inserted") }
             )
     }
 
@@ -67,16 +75,16 @@ class LoginViewModel(private val userDao: UserDao) :BaseViewModel(){
 
 
     private fun onSuccess() {
-
+        startActivity.postValue(true)
     }
 
-    private fun onIError(){
+    private fun onIError() {
         buttonClickable.value = true
     }
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+        subscription?.dispose()
     }
 
     companion object {

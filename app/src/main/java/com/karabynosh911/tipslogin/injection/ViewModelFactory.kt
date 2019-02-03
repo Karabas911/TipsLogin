@@ -20,14 +20,18 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.karabynosh911.tipslogin.database.UserDao
 import com.karabynosh911.tipslogin.ui.login.LoginViewModel
+import com.karabynosh911.tipslogin.ui.profile.ProfileViewModel
 
 
 class ViewModelFactory(private val userDao: UserDao) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(userDao) as T
+        when{
+            modelClass.isAssignableFrom(LoginViewModel::class.java) ->
+                return LoginViewModel(userDao) as T
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) ->
+                return ProfileViewModel(userDao) as T
+            else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

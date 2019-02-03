@@ -2,6 +2,7 @@ package com.karabynosh911.tipslogin.ui.login
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import com.karabynosh911.tipslogin.R
 import com.karabynosh911.tipslogin.injection.FactoryInjection
+import com.karabynosh911.tipslogin.ui.profile.ProfileActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -47,6 +49,12 @@ class LoginActivity : AppCompatActivity() {
     private fun observeData() {
         viewModel.loadingVisibility.observe(this, Observer {if(it!=null) pBar.visibility = it})
         viewModel.buttonClickable.observe(this, Observer { if(it!=null) btnLogin.isClickable = it })
+        viewModel.startActivity.observe(this, Observer {
+            if(it!=null && it) {
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
+            }
+        })
     }
 
 
