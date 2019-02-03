@@ -1,19 +1,24 @@
 package com.karabynosh911.tipslogin.ui.login
 
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import android.view.View
 import com.karabynosh911.tipslogin.base.BaseViewModel
+import com.karabynosh911.tipslogin.database.UserDao
+import com.karabynosh911.tipslogin.model.User
 import com.karabynosh911.tipslogin.network.TipsApi
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class LoginViewModel :BaseViewModel(){
+class LoginViewModel(private val userDao: UserDao) :BaseViewModel(){
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val buttonClickable: MutableLiveData<Boolean> = MutableLiveData()
+    lateinit var mUser: User
 
     @Inject
     lateinit var tipsApi: TipsApi
@@ -22,6 +27,7 @@ class LoginViewModel :BaseViewModel(){
 
     init {
         buttonClickable.value = true
+        loadingVisibility.value = View.GONE
     }
 
     fun loginUser(phoneCode:String, phoneNumber:String, password:String){
@@ -31,9 +37,22 @@ class LoginViewModel :BaseViewModel(){
             .doOnSubscribe{ onLoginStart()}
             .doOnTerminate { onLoginFinished() }
             .subscribe(
-                {onSuccess()},
+                {response -> mUser = response.user
+                    insertUserToDb(mUser)
+                    onSuccess()
+                },
                 {onIError()})
 
+    }
+
+    private fun insertUserToDb(user: User) {
+        subscription = Observable.fromCallable { userDao.insertUser(user)}
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe(
+                { Log.d(TAG, "User inserted successfully")},
+                {Log.d(TAG, "ERROR, User wasn't inserted")}
+            )
     }
 
 
@@ -60,5 +79,7 @@ class LoginViewModel :BaseViewModel(){
         subscription.dispose()
     }
 
-
+    companion object {
+        const val TAG = "user database"
+    }
 }

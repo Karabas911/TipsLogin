@@ -9,9 +9,9 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
 
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
     defaultConfig {
         applicationId "com.karabynosh911.tipslogin"
         minSdkVersion 15
@@ -37,6 +37,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // Room
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
 
     // LiveData and ViewModel
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"

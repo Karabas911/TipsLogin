@@ -1,18 +1,18 @@
 package com.karabynosh911.tipslogin.ui.login
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import com.karabynosh911.tipslogin.R
-import com.karabynosh911.tipslogin.databinding.ActivityLoginBinding
+import com.karabynosh911.tipslogin.injection.FactoryInjection
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
 
     //Views
@@ -20,27 +20,35 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var edtPhone: EditText
     private lateinit var edtPassword: EditText
     private lateinit var listener :View.OnClickListener
+    private lateinit var pBar :ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        binding.viewModel = viewModel
-
+        setContentView(R.layout.activity_login)
+        val viewModelFactory = FactoryInjection.provideViewModelFactory(this)
+        viewModel = ViewModelProviders.of(this,viewModelFactory).get(LoginViewModel::class.java)
         initUI()
+        observeData()
     }
+
 
     private fun initUI() {
         listener = View.OnClickListener {
             viewModel.loginUser("+380",edtPhone.text.toString(),edtPassword.text.toString()) }
 
-        btnLogin = binding.btnLogin
+        pBar = findViewById(R.id.progress)
+        btnLogin = findViewById(R.id.btnLogin)
         btnLogin.setOnClickListener(listener)
-        edtPhone = binding.edtPhone
-        edtPassword = binding.edtPassword
+        edtPhone = findViewById(R.id.edtPhone)
+        edtPassword = findViewById(R.id.edtPassword)
 
     }
+
+    private fun observeData() {
+        viewModel.loadingVisibility.observe(this, Observer {if(it!=null) pBar.visibility = it})
+        viewModel.buttonClickable.observe(this, Observer { if(it!=null) btnLogin.isClickable = it })
+    }
+
 
 
 }
