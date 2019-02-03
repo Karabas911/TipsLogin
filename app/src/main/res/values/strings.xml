@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">TipsLogin</string>
+    <string name="app_name">Tips</string>
     <string name="title_login">SIGN IN</string>
     <string name="title_profile">PROFILE</string>
     <string name="my_continue">CONTINUE</string>
     <string name="password">Password</string>
     <string name="phone_number">Phone number</string>
+    <string name="read_more">READ MORE</string>
+    <string name="tips_personal">Tips - personal bonus and reward system \nfor salesman</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="not_registered_yet">NOT REGISTERED YET?</string>
 </resources>
