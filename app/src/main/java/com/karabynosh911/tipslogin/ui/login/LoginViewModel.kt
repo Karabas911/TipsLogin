@@ -13,6 +13,7 @@ import javax.inject.Inject
 class LoginViewModel :BaseViewModel(){
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
+    val buttonClickable: MutableLiveData<Boolean> = MutableLiveData()
 
     @Inject
     lateinit var tipsApi: TipsApi
@@ -20,7 +21,7 @@ class LoginViewModel :BaseViewModel(){
     private lateinit var subscription: Disposable
 
     init {
-        loginUser("+380","671112233","qwerty")
+        buttonClickable.value = true
     }
 
     fun loginUser(phoneCode:String, phoneNumber:String, password:String){
@@ -38,6 +39,7 @@ class LoginViewModel :BaseViewModel(){
 
     private fun onLoginStart() {
         loadingVisibility.value = View.VISIBLE
+        buttonClickable.value = false
     }
 
     private fun onLoginFinished() {
@@ -50,7 +52,7 @@ class LoginViewModel :BaseViewModel(){
     }
 
     private fun onIError(){
-
+        buttonClickable.value = true
     }
 
     override fun onCleared() {
