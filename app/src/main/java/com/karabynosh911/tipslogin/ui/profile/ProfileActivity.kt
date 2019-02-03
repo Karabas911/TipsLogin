@@ -2,6 +2,7 @@ package com.karabynosh911.tipslogin.ui.profile
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -20,7 +21,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var tvPhone: TextView
     private lateinit var pBar : ProgressBar
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -29,7 +29,6 @@ class ProfileActivity : AppCompatActivity() {
         initUI()
         observeData()
     }
-
 
     private fun initUI() {
         tvSurname = findViewById(R.id.tvSurname)
@@ -46,7 +45,6 @@ class ProfileActivity : AppCompatActivity() {
             tvName.text = user?.name
             tvPhone.text = "${user?.phone_code} ${user?.phone_number}"
         })
-
     }
 
 }
