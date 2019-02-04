@@ -4,7 +4,6 @@
     <string name="title_profile">PROFILE</string>
     <string name="my_continue">CONTINUE</string>
     <string name="password">Password</string>
-    <string name="phone_number">Phone number</string>
     <string name="read_more">READ MORE</string>
     <string name="tips_personal">Tips - personal bonus and reward system \nfor salesman</string>
     <string name="sign_up">SIGN UP</string>
@@ -16,4 +15,7 @@
     <string name="error_auth">Authorisation failure</string>
     <string name="error_not_cheked">An Error occurs, please try later</string>
     <string name="retry">Retry</string>
+    <string name="surname">Surname</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone number</string>
 </resources>
