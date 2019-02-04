@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,58 +21,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
         <TextView
                 android:text="@string/app_name_to_upper_case"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
                 android:id="@+id/textView"
-                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 app:fontFamily="sans-serif-thin"
-                android:textSize="75sp"/>
-
-        <Button
-                android:text="@string/my_continue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnLogin"
-                style="@style/MyButton"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/edtPassword"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintHorizontal_bias="0.498"/>
+                android:textSize="85sp"/>
 
         <LinearLayout
-                android:id="@+id/constrain_phone"
-                android:layout_width="match_parent"
+                android:id="@+id/container_phone"
+                android:orientation="horizontal"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-        >
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:paddingRight="15dp"
+                android:paddingEnd="15dp"
+                app:layout_constraintStart_toStartOf="parent">
+
             <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_phone"
-                    android:id="@+id/imageView"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_phone"/>
 
             <com.rilixtech.CountryCodePicker
                     android:id="@+id/ccp"
@@ -70,56 +58,87 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:ccp_textSize="20sp"
-                    app:ccp_hideNameCode="true"/>
+                    app:ccp_hideNameCode="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"/>
             <EditText
                     android:id="@+id/edtPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:layout_gravity="center_vertical"
-                    android:hint="@string/phone_number"
                     android:maxLength="11"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginRight="30dp"
-                    tools:ignore="TextFields"/>
+                    android:hint="@string/phone_number"
+                    android:textColor="@android:color/black"
+                    android:ems="10"
+                    tools:ignore="TextFields"
+                    android:layout_weight="1"
+            />
         </LinearLayout>
 
-        <EditText
-
-                android:layout_width="wrap_content"
+        <LinearLayout
+                android:id="@+id/container_password"
+                android:orientation="horizontal"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:maxLength="10"
-                android:hint="@string/password"
-                android:id="@+id/edtPassword"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/constrain_phone"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/container_phone"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="8dp"/>
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:paddingRight="15dp"
+                android:paddingEnd="15dp"
+                app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_key"
-                android:id="@+id/imageView2"
-                app:layout_constraintEnd_toStartOf="@+id/edtPassword"
-                android:layout_marginTop="36dp"
-                app:layout_constraintTop_toBottomOf="@+id/constrain_phone"/>
-        <android.support.constraint.ConstraintLayout
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_key"/>
+
+            <EditText
+                    android:id="@+id/edtPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLength="10"
+                    android:textColor="@android:color/black"
+                    android:ems="10"
+                    tools:ignore="TextFields"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginLeft="6dp"
+            />
+        </LinearLayout>
+
+
+        <Button
+                android:id="@+id/btnLogin"
+                android:text="@string/my_continue"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:background="@drawable/my_button"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                app:layout_constraintTop_toBottomOf="@+id/container_password"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:id="@+id/container_sign_up"
+                android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/btnLogin"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp">
+                android:gravity="center_horizontal"
+                android:padding="0dp">
 
 
             <TextView
@@ -127,54 +146,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView2"
+                    android:textSize="15sp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    app:layout_constraintHorizontal_bias="0.357"/>
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"/>
             <TextView
                     android:text="@string/sign_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:textColor="@android:color/black"
-                    android:id="@+id/textView3"
-                    app:layout_constraintStart_toEndOf="@+id/textView2"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    android:textSize="15sp"
+                    style="@style/Base.V7.Widget.AppCompat.EditText"
+                    android:id="@+id/textView3"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+
+
+        <TextView
+                android:text="@string/tips_personal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:id="@+id/textView5"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center_horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_sign_up"
+                android:layout_marginBottom="8dp" app:layout_constraintVertical_bias="1.0"/>
+
         <TextView
                 android:text="@string/read_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4"
                 android:textColor="@android:color/black"
-
+                style="@style/Base.V7.Widget.AppCompat.EditText"
+                android:textSize="15sp"
+                android:focusable="false"
+                android:clickable="false"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.487"/>
-        <TextView
-                android:text="@string/tips_personal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView5"
-                android:textColor="@android:color/black"
-                android:gravity="center_horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/textView4"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.496"
-                android:layout_marginBottom="8dp"/>
+                />
 
 
     </android.support.constraint.ConstraintLayout>
@@ -190,3 +210,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>
+    </TableLayout>
+</android.support.v4.widget.NestedScrollView>

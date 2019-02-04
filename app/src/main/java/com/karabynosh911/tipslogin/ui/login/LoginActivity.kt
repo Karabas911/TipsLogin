@@ -3,10 +3,12 @@ package com.karabynosh911.tipslogin.ui.login
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -40,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
 
         initUI()
         observeData()
+        checkOrientation()
     }
 
     private fun initUI() {
@@ -122,6 +125,16 @@ class LoginActivity : AppCompatActivity() {
         edtPassword.text.clear()
         viewModel.onUpdateData()
         updateData = false
+    }
+
+
+    private fun checkOrientation() {
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+        else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
     }
 
 }

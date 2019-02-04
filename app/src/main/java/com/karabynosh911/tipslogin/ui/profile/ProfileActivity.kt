@@ -3,8 +3,10 @@ package com.karabynosh911.tipslogin.ui.profile
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -32,6 +34,7 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, factory).get(ProfileViewModel::class.java)
         initUI()
         observeData()
+        checkOrientation()
     }
 
     private fun initUI() {
@@ -57,6 +60,15 @@ class ProfileActivity : AppCompatActivity() {
                 countryCodePicker.resetToDefaultCountry()
             }
                 })
+    }
+
+    private fun checkOrientation() {
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+        else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
     }
 
 }
