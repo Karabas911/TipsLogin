@@ -23,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: LoginViewModel
     private val countryName: String = Locale.getDefault().country
+    private var updateData: Boolean = false
 
     //Views
     private lateinit var btnLogin: Button
@@ -32,7 +33,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var pBar: ProgressBar
     private lateinit var countryCodePicker: CountryCodePicker
     private var errorSnack: Snackbar? = null
-    private var updateData: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
         initUI()
         observeData()
         checkOrientation()
+        checkSavedInstance(savedInstanceState)
     }
 
     private fun initUI() {
@@ -53,7 +54,6 @@ class LoginActivity : AppCompatActivity() {
                     edtPhone.text.toString(),
                     edtPassword.text.toString()
                 )
-
         }
 
         pBar = findViewById(R.id.progress)
@@ -86,7 +86,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun isValid(phoneNumber: String, password: String): Boolean {
-
         return when {
             phoneNumber.length !in 9..11 -> {
                 showMessage(R.string.valid_phone)
@@ -119,14 +118,12 @@ class LoginActivity : AppCompatActivity() {
         if(updateData) onUpdateData()
     }
 
-
     private fun onUpdateData() {
         edtPhone.text.clear()
         edtPassword.text.clear()
         viewModel.onUpdateData()
         updateData = false
     }
-
 
     private fun checkOrientation() {
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -135,6 +132,26 @@ class LoginActivity : AppCompatActivity() {
         else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onUpdateData()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putString(SELECTED_COUNTRY,countryCodePicker.selectedCountryNameCode)
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun checkSavedInstance(savedInstanceState: Bundle?) {
+        val countryCode = savedInstanceState?.getString(SELECTED_COUNTRY)
+        if(countryCode!=null)
+            countryCodePicker.setCountryForNameCode(countryCode)
+    }
+
+    companion object {
+        const val SELECTED_COUNTRY = "selected_country"
     }
 
 }

@@ -18,7 +18,6 @@ class ProfileViewModel(private val userDao: UserDao) : ViewModel() {
     val user: MutableLiveData<User> = MutableLiveData()
     private var subscription: Disposable
 
-
     init {
         subscription = Observable.fromCallable { userDao.getUsersList() }
             .subscribeOn(Schedulers.io())

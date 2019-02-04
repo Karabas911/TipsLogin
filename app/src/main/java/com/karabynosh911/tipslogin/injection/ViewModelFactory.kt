@@ -22,7 +22,7 @@ import com.karabynosh911.tipslogin.database.UserDao
 import com.karabynosh911.tipslogin.ui.login.LoginViewModel
 import com.karabynosh911.tipslogin.ui.profile.ProfileViewModel
 
-
+// Provides ViewModule with UserDao
 class ViewModelFactory(private val userDao: UserDao) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

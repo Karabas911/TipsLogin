@@ -51,14 +51,16 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
                 })
     }
 
-    fun onUpdateData(){
+    fun onUpdateData() {
         startActivity.value = null
         buttonClickable.value = true
         mUser = null
+        errorMessage.value = null
+        errorNetwork.value = null
     }
 
     private fun insertUserToDb(user: User?) {
-        if(user==null) return
+        if (user == null) return
         subscription = Observable.fromCallable {
             userDao.deleteAllUsers()
             userDao.insertUser(user)
@@ -70,10 +72,12 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
                     Log.d(TAG, "User inserted successfully")
                     onSuccess()
                 },
-                { Log.d(TAG, "ERROR, User wasn't inserted") }
+                {
+                    Log.d(TAG, "ERROR, User wasn't inserted")
+                    onIError(ERROR)
+                }
             )
     }
-
 
     private fun onLoginStart() {
         errorNetwork.value = null
@@ -92,14 +96,12 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
 
     private fun onIError(msg: String) {
         buttonClickable.value = true
-        when{
+        when {
             msg.equals(ERROR_NETWORK) -> errorNetwork.value = R.string.error_network
             msg.equals(ERROR_UNUATHORISED) -> errorMessage.value = R.string.error_auth
-            else  -> errorMessage.value = R.string.error_not_cheked
+            else -> errorMessage.value = R.string.error_not_cheked
         }
     }
-
-
 
     override fun onCleared() {
         super.onCleared()
@@ -108,5 +110,7 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
 
     companion object {
         const val TAG = "user database"
+        const val ERROR = "error"
     }
+
 }

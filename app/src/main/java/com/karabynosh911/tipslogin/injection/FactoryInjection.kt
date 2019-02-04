@@ -20,7 +20,7 @@ import android.content.Context
 import com.karabynosh911.tipslogin.database.AppDatabase
 import com.karabynosh911.tipslogin.database.UserDao
 
-
+// Not Dagger 2 Injection. Provides ViewModel with UserDao
 object FactoryInjection {
 
     fun provideUserDataSource(context: Context): UserDao {

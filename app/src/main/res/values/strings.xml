@@ -12,7 +12,7 @@
     <string name="valid_phone">Please provide valid phone number</string>
     <string name="valid_password">Password should have at list 6 symbols</string>
     <string name="error_network">You\'re offline. Check your connection</string>
-    <string name="error_auth">Authorisation failure</string>
+    <string name="error_auth">Authorisation failed</string>
     <string name="error_not_cheked">An Error occurs, please try later</string>
     <string name="retry">Retry</string>
     <string name="surname">Surname</string>

@@ -7,9 +7,9 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import com.karabynosh911.tipslogin.model.User
 import com.karabynosh911.tipslogin.utils.DATABASE_NAME
-import com.karabynosh911.tipslogin.utils.DATABASE_VERSIO
+import com.karabynosh911.tipslogin.utils.DATABASE_VERSION
 
-@Database(entities = arrayOf(User::class), version = DATABASE_VERSIO)
+@Database(entities = arrayOf(User::class), version = DATABASE_VERSION)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

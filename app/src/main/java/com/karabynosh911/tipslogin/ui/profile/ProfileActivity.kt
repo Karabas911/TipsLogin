@@ -26,7 +26,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var pBar : ProgressBar
     private lateinit var countryCodePicker: CountryCodePicker
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
