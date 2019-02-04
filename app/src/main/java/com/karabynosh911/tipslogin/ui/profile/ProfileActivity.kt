@@ -11,6 +11,8 @@ import android.widget.TextView
 import com.karabynosh911.tipslogin.R
 import com.karabynosh911.tipslogin.injection.FactoryInjection
 import com.karabynosh911.tipslogin.injection.ViewModelFactory
+import com.rilixtech.CountryCodePicker
+import java.util.*
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -20,6 +22,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var tvName: TextView
     private lateinit var tvPhone: TextView
     private lateinit var pBar : ProgressBar
+    private lateinit var countryCodePicker: CountryCodePicker
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +38,25 @@ class ProfileActivity : AppCompatActivity() {
         tvSurname = findViewById(R.id.tvSurname)
         tvName = findViewById(R.id.tvName)
         tvPhone = findViewById(R.id.tvPhone)
-        pBar = findViewById(R.id.progress)
+        pBar = this.findViewById(R.id.progress)
+        countryCodePicker = findViewById(R.id.ccp)
+        countryCodePicker.setCountryForNameCode(Locale.getDefault().country)
     }
 
     private fun observeData() {
         viewModel.loadingVisibility.observe(this, Observer {if(it!=null) pBar.visibility = it})
 
         viewModel.user.observe(this, Observer { user ->
-            tvSurname.text = user?.second_name
-            tvName.text = user?.name
-            tvPhone.text = "${user?.phone_code} ${user?.phone_number}"
-        })
+            if(user!=null) {
+                tvSurname.text = user.second_name
+                tvName.text = user.name
+                tvPhone.text = " ${user.phone_number}"
+
+                val phoneCode = user.phone_code.substring(1, user.phone_code.length).toInt()
+                countryCodePicker.setDefaultCountryUsingPhoneCode(phoneCode)
+                countryCodePicker.resetToDefaultCountry()
+            }
+                })
     }
 
 }
