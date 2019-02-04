@@ -3,10 +3,13 @@ package com.karabynosh911.tipslogin.ui.login
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import android.view.View
+import com.karabynosh911.tipslogin.R
 import com.karabynosh911.tipslogin.base.BaseViewModel
 import com.karabynosh911.tipslogin.database.UserDao
 import com.karabynosh911.tipslogin.model.User
 import com.karabynosh911.tipslogin.network.TipsApi
+import com.karabynosh911.tipslogin.utils.ERROR_NETWORK
+import com.karabynosh911.tipslogin.utils.ERROR_UNUATHORISED
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -19,7 +22,9 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val buttonClickable: MutableLiveData<Boolean> = MutableLiveData()
     val startActivity: MutableLiveData<Boolean> = MutableLiveData()
-    lateinit var mUser: User
+    val errorMessage: MutableLiveData<Int> = MutableLiveData()
+    val errorNetwork: MutableLiveData<Int> = MutableLiveData()
+    private var mUser: User? = null
 
     @Inject
     lateinit var tipsApi: TipsApi
@@ -27,8 +32,6 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
     private var subscription: Disposable? = null
 
     init {
-//        startActivity.value = false
-//        buttonClickable.value = true
         loadingVisibility.value = View.GONE
     }
 
@@ -43,11 +46,19 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
                     mUser = response.user
                     insertUserToDb(mUser)
                 },
-                { onIError() })
-
+                {
+                    onIError(it.message.toString())
+                })
     }
 
-    private fun insertUserToDb(user: User) {
+    fun onUpdateData(){
+        startActivity.value = null
+        buttonClickable.value = true
+        mUser = null
+    }
+
+    private fun insertUserToDb(user: User?) {
+        if(user==null) return
         subscription = Observable.fromCallable {
             userDao.deleteAllUsers()
             userDao.insertUser(user)
@@ -65,6 +76,7 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
 
 
     private fun onLoginStart() {
+        errorNetwork.value = null
         loadingVisibility.value = View.VISIBLE
         buttonClickable.value = false
     }
@@ -78,9 +90,16 @@ class LoginViewModel(private val userDao: UserDao) : BaseViewModel() {
         startActivity.postValue(true)
     }
 
-    private fun onIError() {
+    private fun onIError(msg: String) {
         buttonClickable.value = true
+        when{
+            msg.equals(ERROR_NETWORK) -> errorNetwork.value = R.string.error_network
+            msg.equals(ERROR_UNUATHORISED) -> errorMessage.value = R.string.error_auth
+            else  -> errorMessage.value = R.string.error_not_cheked
+        }
     }
+
+
 
     override fun onCleared() {
         super.onCleared()
